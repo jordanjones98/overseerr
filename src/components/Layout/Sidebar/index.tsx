@@ -1,5 +1,6 @@
 import VersionStatus from '@app/components/Layout/VersionStatus';
 import useClickOutside from '@app/hooks/useClickOutside';
+import useSettings from '@app/hooks/useSettings';
 import { Permission, useUser } from '@app/hooks/useUser';
 import { Transition } from '@headlessui/react';
 import {
@@ -103,6 +104,7 @@ const Sidebar = ({ open, setClosed }: SidebarProps) => {
   const router = useRouter();
   const intl = useIntl();
   const { hasPermission } = useUser();
+  const settings = useSettings();
   useClickOutside(navRef, () => setClosed());
 
   return (
@@ -217,13 +219,12 @@ const Sidebar = ({ open, setClosed }: SidebarProps) => {
         <div className="sidebar flex w-64 flex-col">
           <div className="flex h-0 flex-1 flex-col">
             <div className="flex flex-1 flex-col overflow-y-auto pt-8 pb-4">
-              <div className="flex flex-shrink-0 items-center">
-                <span className="px-4 text-2xl text-gray-50">
-                  <a href="/">
-                    <img src="/logo_full.svg" alt="Logo" />
-                  </a>
+              <a href="/" className="flex flex-shrink-0 items-center px-4">
+                <img className="h-12" src="/os_icon.svg" alt="Logo" />
+                <span className="px-3 text-4xl text-gray-50">
+                  {settings.currentSettings.applicationTitle}
                 </span>
-              </div>
+              </a>
               <nav className="mt-16 flex-1 space-y-4 px-4">
                 {SidebarLinks.filter((link) =>
                   link.requiredPermission
