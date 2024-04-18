@@ -75,12 +75,20 @@ const QueryFilterOptions = z.object({
 
 export type FilterOptions = z.infer<typeof QueryFilterOptions>;
 
+function withoutKeywords(isaacMode: string | undefined) {
+  if (isaacMode && isaacMode === 'true') {
+    return '';
+  }
+  return '155477|190370';
+}
+
 discoverRoutes.get('/movies', async (req, res, next) => {
   const tmdb = createTmdbWithRegionLanguage(req.user);
 
   try {
     const query = QueryFilterOptions.parse(req.query);
     const keywords = query.keywords;
+
     const data = await tmdb.getDiscoverMovies({
       page: Number(query.page),
       sortBy: query.sortBy as SortOptions,
@@ -103,7 +111,7 @@ discoverRoutes.get('/movies', async (req, res, next) => {
       voteCountLte: query.voteCountLte,
       watchProviders: query.watchProviders,
       watchRegion: query.watchRegion,
-      withoutKeywords: query.isaacMode === 'true' ? '155477|190370' : '',
+      withoutKeywords: withoutKeywords(query.isaacMode),
     });
 
     const media = await Media.getRelatedMedia(

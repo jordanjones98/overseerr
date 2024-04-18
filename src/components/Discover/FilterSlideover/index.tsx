@@ -59,7 +59,9 @@ const FilterSlideover = ({
   const { currentSettings } = useSettings();
   const updateQueryParams = useUpdateQueryParams({});
   const batchUpdateQueryParams = useBatchUpdateQueryParams({});
-  const [isaacMode, setIsaacMode] = useState('false');
+  const [isaacMode, setIsaacMode] = useState(
+    currentFilters.isaacMode === 'true'
+  );
 
   const dateGte =
     type === 'movie' ? 'primaryReleaseDateGte' : 'firstAirDateGte';
@@ -67,8 +69,8 @@ const FilterSlideover = ({
     type === 'movie' ? 'primaryReleaseDateLte' : 'firstAirDateLte';
 
   function handleChangeIsaacMode() {
-    setIsaacMode(isaacMode === 'false' ? 'true' : 'false');
-    updateQueryParams('isaacMode', isaacMode);
+    setIsaacMode(!isaacMode);
+    updateQueryParams('isaacMode', isaacMode ? 'false' : 'true');
   }
 
   return (
@@ -182,7 +184,7 @@ const FilterSlideover = ({
           type="checkbox"
           id="collapseTags"
           name="collapseTags"
-          checked={isaacMode === 'true' ? true : false}
+          checked={isaacMode}
           onChange={handleChangeIsaacMode}
         />
         <span className="text-lg font-semibold">
