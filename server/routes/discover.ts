@@ -70,6 +70,7 @@ const QueryFilterOptions = z.object({
   network: z.coerce.string().optional(),
   watchProviders: z.coerce.string().optional(),
   watchRegion: z.coerce.string().optional(),
+  isaacMode: z.coerce.string().optional(),
 });
 
 export type FilterOptions = z.infer<typeof QueryFilterOptions>;
@@ -102,6 +103,7 @@ discoverRoutes.get('/movies', async (req, res, next) => {
       voteCountLte: query.voteCountLte,
       watchProviders: query.watchProviders,
       watchRegion: query.watchRegion,
+      withoutKeywords: query.isaacMode === 'true' ? '155477|190370' : '',
     });
 
     const media = await Media.getRelatedMedia(
