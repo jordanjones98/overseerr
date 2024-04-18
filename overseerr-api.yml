@@ -4200,6 +4200,11 @@ paths:
             type: string
             example: 2022-01-01
         - in: query
+          name: isaacMode
+          schema:
+            type: string
+            example: true
+        - in: query
           name: primaryReleaseDateLte
           schema:
             type: string
