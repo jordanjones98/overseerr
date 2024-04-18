@@ -108,6 +108,7 @@ export const QueryFilterOptions = z.object({
   voteCountGte: z.string().optional(),
   watchRegion: z.string().optional(),
   watchProviders: z.string().optional(),
+  isaacMode: z.string().optional(),
 });
 
 export type FilterOptions = z.infer<typeof QueryFilterOptions>;
@@ -121,6 +122,10 @@ export const prepareFilterValues = (
 
   if (values.sortBy) {
     filterValues.sortBy = values.sortBy;
+  }
+
+  if (values.isaacMode) {
+    filterValues.isaacMode = values.isaacMode;
   }
 
   if (values.primaryReleaseDateGte) {

@@ -74,6 +74,7 @@ interface DiscoverMovieOptions {
   sortBy?: SortOptions;
   watchRegion?: string;
   watchProviders?: string;
+  withoutKeywords?: string;
 }
 
 interface DiscoverTvOptions {
@@ -468,6 +469,7 @@ class TheMovieDb extends ExternalAPI {
     voteCountLte,
     watchProviders,
     watchRegion,
+    withoutKeywords,
   }: DiscoverMovieOptions = {}): Promise<TmdbSearchMovieResponse> => {
     try {
       const defaultFutureDate = new Date(
@@ -506,6 +508,7 @@ class TheMovieDb extends ExternalAPI {
           with_genres: genre,
           with_companies: studio,
           with_keywords: keywords,
+          without_keywords: withoutKeywords,
           'with_runtime.gte': withRuntimeGte,
           'with_runtime.lte': withRuntimeLte,
           'vote_average.gte': voteAverageGte,

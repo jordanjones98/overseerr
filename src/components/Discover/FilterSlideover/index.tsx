@@ -16,6 +16,7 @@ import {
   useUpdateQueryParams,
 } from '@app/hooks/useUpdateQueryParams';
 import { XCircleIcon } from '@heroicons/react/24/outline';
+import { useState } from 'react';
 import { defineMessages, useIntl } from 'react-intl';
 import Datepicker from 'react-tailwindcss-datepicker-sct';
 
@@ -58,11 +59,17 @@ const FilterSlideover = ({
   const { currentSettings } = useSettings();
   const updateQueryParams = useUpdateQueryParams({});
   const batchUpdateQueryParams = useBatchUpdateQueryParams({});
+  const [isaacMode, setIsaacMode] = useState('false');
 
   const dateGte =
     type === 'movie' ? 'primaryReleaseDateGte' : 'firstAirDateGte';
   const dateLte =
     type === 'movie' ? 'primaryReleaseDateLte' : 'firstAirDateLte';
+
+  function handleChangeIsaacMode() {
+    setIsaacMode(isaacMode === 'false' ? 'true' : 'false');
+    updateQueryParams('isaacMode', isaacMode);
+  }
 
   return (
     <SlideOver
@@ -169,6 +176,14 @@ const FilterSlideover = ({
           setFieldValue={(_key, value) => {
             updateQueryParams('language', value);
           }}
+        />
+        <span className="text-lg font-semibold">Isaac Mode</span>
+        <input
+          type="checkbox"
+          id="collapseTags"
+          name="collapseTags"
+          checked={isaacMode === 'true' ? true : false}
+          onChange={handleChangeIsaacMode}
         />
         <span className="text-lg font-semibold">
           {intl.formatMessage(messages.runtime)}
